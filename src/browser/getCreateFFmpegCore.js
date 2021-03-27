@@ -23,7 +23,7 @@ const toBlobURL = async (url, mimeType) => {
     .then(method.call0('arrayBuffer'))
     .then(logFileSize)
     .then(bufToBlob)
-    .then(Url.createObjectURL)
+    .then(URL.createObjectURL)
     .then(logBlobUrl);
 };
 
