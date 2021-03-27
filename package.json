@@ -1,7 +1,7 @@
 {
   "name": "@ffmpeg/ffmpeg",
-  "version": "0.9.7",
-  "description": "FFmpeg WebAssembly version",
+  "version": "0.9.8",
+  "description": "FFmpeg WebAssembly version - Orion's Worker-compat fork",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "directories": {
