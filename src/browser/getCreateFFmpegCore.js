@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const resolveURL = require('resolve-url');
+// const resolveURL = require('resolve-url');
 const { log } = require('../utils/log');
 
 /*
@@ -16,11 +16,11 @@ const toBlobURL = async (url, mimeType) => {
   return blobURL;
 };
 
-module.exports = async ({ corePath: _corePath }) => {
-  if (typeof _corePath !== 'string') {
+module.exports = async ({ corePath: coreRemotePath }) => {
+  if (typeof coreRemotePath !== 'string') {
     throw Error('corePath should be a string!');
   }
-  const coreRemotePath = resolveURL(_corePath);
+  // const coreRemotePath = resolveURL(_corePath);
   const corePath = await toBlobURL(
     coreRemotePath,
     'application/javascript',
