@@ -2,18 +2,29 @@
 // const resolveURL = require('resolve-url');
 const { log } = require('../utils/log');
 
+const tap = action => v => {action(); return v;}
+const method = {
+  call0: key => v => v[key](),
+  call: key => (...args) => v => v[key](...args),
+};
+
 /*
  * Fetch data from remote URL and convert to blob URL
  * to avoid CORS issue
  */
 const toBlobURL = async (url, mimeType) => {
+  const logFileSize = tap(buf => log('info', `${url} file size = ${buf.byteLength} bytes`));
+  const logBlobUrl = tap(url => log('info', `${url} blob URL = ${blobURL}`));
+  const bufToBlob = buf => new Blob([buf], { type: mimeType });
+ 
   log('info', `fetch ${url}`);
-  const buf = await (await fetch(url)).arrayBuffer();
-  log('info', `${url} file size = ${buf.byteLength} bytes`);
-  const blob = new Blob([buf], { type: mimeType });
-  const blobURL = URL.createObjectURL(blob);
-  log('info', `${url} blob URL = ${blobURL}`);
-  return blobURL;
+
+  return fetch(url, {mode: 'no-cors'})
+    .then(method.call0('arrayBuffer'))
+    .then(logFileSize)
+    .then(bufToBlob)
+    .then(Url.createObjectURL)
+    .then(logBlobUrl);
 };
 
 module.exports = async ({ corePath: coreRemotePath }) => {
