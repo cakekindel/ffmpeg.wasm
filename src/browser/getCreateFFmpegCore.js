@@ -3,10 +3,6 @@
 const { log } = require('../utils/log');
 
 const tap = action => v => {action(); return v;}
-const method = {
-  call0: key => v => v[key](),
-  call: key => (...args) => v => v[key](...args),
-};
 
 /*
  * Fetch data from remote URL and convert to blob URL
@@ -20,7 +16,7 @@ const toBlobURL = async (url, mimeType) => {
   log('info', `fetch ${url}`);
 
   return fetch(url, {mode: 'no-cors'})
-    .then(method.call0('arrayBuffer'))
+    .then(resp => resp.arrayBuffer())
     .then(logFileSize)
     .then(bufToBlob)
     .then(URL.createObjectURL)
